@@ -1,10 +1,27 @@
-// This is your application, it contains your GraphQL schema and the implementation of it.
 import {createApplication} from "graphql-modules";
 import {firstModule} from "./first-module";
+import {createYoga} from "graphql-yoga";
+import { useGraphQLModules } from '@envelop/graphql-modules'
+import bun from "bun";
 
 const application = createApplication({
-  modules: [firstModule]
+  modules: [
+    firstModule
+  ]
 })
 
-// This is your actual GraphQL schema
-const mySchema = application.schema
+const yoga = createYoga({
+  plugins: [useGraphQLModules(application)]
+})
+
+const server = bun.serve({
+  fetch: yoga,
+  port: 4000,
+});
+
+console.info(
+  `Server is running on ${new URL(
+    yoga.graphqlEndpoint,
+    `http://${server.hostname}:${server.port}`
+  )}`
+)

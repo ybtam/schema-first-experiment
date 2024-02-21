@@ -10,7 +10,9 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@envelop/graphql-modules": "^6.0.0",
     "graphql": "^16.8.1",
-    "graphql-modules": "^2.3.0"
+    "graphql-modules": "^2.3.0",
+    "graphql-yoga": "^5.1.1"
   }
 }
