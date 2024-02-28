@@ -3,10 +3,12 @@ import {firstModule} from "./first-module";
 import {createYoga} from "graphql-yoga";
 import { useGraphQLModules } from '@envelop/graphql-modules'
 import bun from "bun";
+import {userModule} from "./user";
 
 const application = createApplication({
   modules: [
-    firstModule
+    firstModule,
+    userModule
   ]
 })
 

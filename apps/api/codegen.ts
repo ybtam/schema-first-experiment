@@ -6,7 +6,7 @@ const config: CodegenConfig = {
     './src/': {
       preset: 'graphql-modules',
       presetConfig: {
-        baseTypesPath: '../typedef/graphql.ts',
+        baseTypesPath: '../generated-types/graphql.ts',
         filename: 'typedef/module-types.ts'
       },
       plugins: [

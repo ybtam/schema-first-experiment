@@ -1,16 +1,20 @@
 /* eslint-disable */
 import * as Types from "../../../generated-types/graphql";
 import * as gm from "graphql-modules";
-export namespace FirstModuleModule {
+export namespace UserModule {
   interface DefinedFields {
-    Query: 'hello';
+    User: 'id' | 'name' | 'email';
+    Query: 'user' | 'users';
   };
   
+  export type User = Pick<Types.User, DefinedFields['User']>;
   export type Query = Pick<Types.Query, DefinedFields['Query']>;
   
+  export type UserResolvers = Pick<Types.UserResolvers, DefinedFields['User'] | '__isTypeOf'>;
   export type QueryResolvers = Pick<Types.QueryResolvers, DefinedFields['Query']>;
   
   export interface Resolvers {
+    User?: UserResolvers;
     Query?: QueryResolvers;
   };
   
@@ -18,9 +22,16 @@ export namespace FirstModuleModule {
     '*'?: {
       '*'?: gm.Middleware[];
     };
+    User?: {
+      '*'?: gm.Middleware[];
+      id?: gm.Middleware[];
+      name?: gm.Middleware[];
+      email?: gm.Middleware[];
+    };
     Query?: {
       '*'?: gm.Middleware[];
-      hello?: gm.Middleware[];
+      user?: gm.Middleware[];
+      users?: gm.Middleware[];
     };
   };
 }
