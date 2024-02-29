@@ -7,14 +7,17 @@ import {ZodError} from "zod";
 export const mutation: UserModule.MutationResolvers = {
   createUser: async (parent, {input}) => {
     try {
-      const userInput = insertUserSchema.parse(input);
-      const newUser = await db.insert(users).values(userInput).onConflictDoNothing({ target: users.email }).returning();
+      const newUser = await db
+        .insert(users)
+        .values(insertUserSchema.parse(input))
+        .onConflictDoNothing({ target: users.email })
+        .returning();
 
       if (!newUser.length) throw new GraphQLError('User with this email already exists');
       return newUser[0] satisfies UserModule.User;
     } catch (error: unknown) {
       if (error instanceof ZodError) {
-        const errorMessage = error.errors.map((e) => `${e.path.join('.')}: ${e.message}`).join('\n');
+        const errorMessage = error.errors.map((e) => e.message).join('\n');
         throw new GraphQLError(errorMessage);
       }
       throw error instanceof GraphQLError ? error : new GraphQLError('An unexpected error occurred');
