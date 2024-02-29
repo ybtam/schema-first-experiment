@@ -2,20 +2,18 @@ import {UserModule} from "../typedef/module-types.ts";
 import {db} from "../../../db";
 import {users} from "../schema.ts";
 import {eq} from "drizzle-orm";
+import type {User} from "../../../generated-types/graphql.ts";
 
 const queries: UserModule.QueryResolvers = {
   user: async (parent, {id}) => {
-    const selectedUsers = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, id))
-
-    return selectedUsers[0]
+    return (
+      await db.query
+      .users
+      .findFirst({where: eq(users.id, id)})
+    ) as User;
   },
   users: async (parent, ) => {
-    return db
-      .select()
-      .from(users);
+    return db.query.users.findMany()
   }
 }
 
